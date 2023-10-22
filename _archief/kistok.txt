@@ -1,0 +1,85 @@
+import pyautogui
+import time
+import signal
+import pyttsx3
+from PIL import ImageGrab
+from functools import partial
+
+# Configure PIL to capture all screens
+ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
+
+# Define the coordinates of the smurfs in a list
+
+SMURF_COORDINATES=[
+ [0, 0, 790, 460, 'Smurf 1'],
+ [854, 0, 1644, 460, 'Smurf 2'],
+ [1707, 0, 2497, 460, 'Smurf 3'],
+
+ [0,461,790,921, 'Smurf 4'],
+ [854,461,1644,921, 'Smurf 5'],
+ [1707,461,2497,921, 'Smurf 6'],
+
+ [0,921,790,1381, 'Smurf 7'],
+ [854,921,1644,1381, 'Smurf 8'],
+ [1707,921,2497,1381, 'Smurf 9'],
+
+ [-790,0,0,460, 'Smurf 0'],
+ [-790,461,0,921, 'A Supersmurf'],
+ [-790,921,0,13810, 'B MiniSmurf']
+]
+
+# Initialize a counter variable for images not found
+false_counter = 0  
+
+# Define a function to enable Ctrl-C interrupt
+def enablectrlc():
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+# Define a function to search for an image on the screen
+def zoekimage(image_path, image_name):
+    global false_counter
+    try:
+        # Try to locate the center of the image on the screen
+        imagex, imagey = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
+    except TypeError:
+        # Increment the counter if the image is not found
+        false_counter += 1  
+        print(image_name, "not found:", false_counter)
+        
+        if false_counter == 2:
+            # If the counter reaches 2, speak "next"
+            engine = pyttsx3.init()
+            engine.say("Next")
+            engine.runAndWait()
+    else:
+        # If the image is found, locate its center coordinates on the screen
+        #imagex, imagey = pyautogui.locateCenterOnScreen(image_path, confidence=0.7)
+        xpositie, ypositie = pyautogui.position()
+        #teller = teller + 1
+        # Check if the image coordinates fall within the smurf coordinates and print the smurf name
+        for smurf in SMURF_COORDINATES:
+            if smurf[0] < imagex < smurf[2] and smurf[1] < imagey < smurf[3]:
+                print(smurf[4], imagex, imagey)
+        
+        # Click the image and return the mouse cursor to its original position
+        pyautogui.moveTo(x=imagex-2560, y=imagey)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.2)
+
+        pyautogui.moveTo(xpositie, ypositie)
+        
+        # Reset the counter for images not found
+        false_counter = 0
+
+def main():
+    # Enable Ctrl-C interrupt and move the mouse cursor to the center of the screen
+    enablectrlc()
+    #pyautogui.moveTo(960, 540)
+    while True:
+        zoekimage("images\kistje.png", "kist")
+        time.sleep(0.2)
+
+if __name__ == '__main__':
+    main()   
+   
