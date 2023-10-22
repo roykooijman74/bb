@@ -1,9 +1,11 @@
-import pyautogui
-import time
+"""Python3.11"""
 import signal
-
-from PIL import ImageGrab
+import time
 from functools import partial
+
+import pyautogui
+from PIL import ImageGrab
+
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
 SMURFWINDOWS = [
@@ -22,18 +24,19 @@ SMURFWINDOWS = [
 ]
 
 def enablectrlc():
-    # KeyboardInterrupt: Ctrl-C
-    # dependent on import signal
+    '''enable ctrl-c'''
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
+    '''zoekplaat'''
     status = 0
     for roi in rois:
         x1, y1, width, length, name = roi
         location = None
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue, region=(x1, y1, width, length))
-        except:
+            location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
+                                                      region=(x1, y1, width, length))
+        except pyautogui.ImageNotFoundException:
             pass
 
         if location:
@@ -47,13 +50,15 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
     return status
 
 def main():
+    '''main function'''	
     enablectrlc()
     while True:
         print("====Invasie")
         roiok = []
         for roi in SMURFWINDOWS:
-            x1, y1, width, length, name = roi
-            if pyautogui.locateOnScreen("images/npc-invasie2.png", confidence=0.7, region=(x1, y1, width, length)):
+            x1, y1, width, length, _ = roi
+            if pyautogui.locateOnScreen("images/npc-invasie2.png", confidence=0.7,
+                                        region=(x1, y1, width, length)):
                 roiok.append(roi)
 
         if roiok:
