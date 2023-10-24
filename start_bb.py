@@ -74,14 +74,18 @@ def fixmulti():
 
 def zoekplaatjesimpel(plaatje, offset=0, confidencevalue=0.9):
     '''zoekplaat zonder region'''
+    location = None
+
     try:
-        imagex, imagey = pyautogui.locateCenterOnScreen(
-            plaatje, confidence=confidencevalue)
+        location = pyautogui.locateCenterOnScreen(plaatje, confidence=confidencevalue)
+        print(location)
     except pyautogui.ImageNotFoundException:
         status = False
         imagex = 0
         imagey = 0
     else:
+        x = location[0]
+        y = location[1] + offset
         status = True
         x = imagex  # -2560
         y = imagey+offset
@@ -100,8 +104,8 @@ def main():
     total_instances = len(SMURFWINDOWS)
     print(total_instances)
     while total_instances > 0:
-        print("searching android start")
-        zoekplaatjesimpel("images/start-android.png")
+        #print("searching android start")
+        #zoekplaatjesimpel("images/start-android.png")
         print("searching boombeach app start")
         zoekplaatje("images/start-boombeach.png", rois=SMURFWINDOWS)
         time.sleep(0.5)

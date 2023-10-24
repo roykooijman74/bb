@@ -29,6 +29,8 @@ def enablectrlc():
 
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
     '''zoekt plaatje in smurf windows'''
+    if rois is None:
+        rois = []
     status = 0
     print("start search")
     while True:  # Loop until no instances are found in any ROI
@@ -42,7 +44,7 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
             location = None
             try:
                 location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
-                                                          region=(x2, y2, width2, length2))
+                                                          region=(x2, y2, width2, length2)) # type: ignore
             except pyautogui.ImageNotFoundException:
                 pass
             if location:
@@ -65,7 +67,7 @@ def drag_window(direction):
     start_y = 0
     end_x = 0
     end_y = 0
-
+    duration=0.1
     if direction == "up":
         start_x = 2880
         start_y = 100
