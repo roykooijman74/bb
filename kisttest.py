@@ -9,18 +9,18 @@ from PIL import ImageGrab
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
 SMURFWINDOWS = [
-    [2560, 0, 790, 460, 'Smurf 1']
-    # [3414, 0, 790, 460, 'Smurf 2'],
-    # [4267, 0, 790, 460, 'Smurf 3'],
-    # [2560, 461, 790, 460, 'Smurf 4'],
-    # [3414, 461, 790, 460, 'Smurf 5'],
-    # [4267, 461, 790, 460, 'Smurf 6'],
-    # [2560, 921, 790, 460, 'Smurf 7'],
-    # [3414, 921, 790, 460, 'Smurf 8'],
-    # [4267, 921, 790, 460, 'Smurf 9'],
-    # [1770, 0, 790, 460, 'Smurf 0'],
-    # [1770, 461, 790, 460, 'A Supersmurf'],
-    # [1770, 921, 790, 460, 'B MiniSmurf']
+    [2560, 0, 790, 460, 'Smurf 1'],
+    [3414, 0, 790, 460, 'Smurf 2'],
+    [4267, 0, 790, 460, 'Smurf 3'],
+    [2560, 461, 790, 460, 'Smurf 4'],
+    [3414, 461, 790, 460, 'Smurf 5'],
+    [4267, 461, 790, 460, 'Smurf 6'],
+    [2560, 921, 790, 460, 'Smurf 7'],
+    [3414, 921, 790, 460, 'Smurf 8'],
+    [4267, 921, 790, 460, 'Smurf 9'],
+    [1770, 0, 790, 460, 'Smurf 0'],
+    [1770, 461, 790, 460, 'A Supersmurf'],
+    [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
 
@@ -125,25 +125,25 @@ def drag_window(direction):
         start_y = 100
         end_x = 2880
         end_y = 385
-        duur = 0.4
+        duur = 0.5
     elif direction == "down":
         start_x = 2880
         start_y = 385
         end_x = 2880
         end_y = 100
-        duur = 0.4
+        duur = 0.5
     elif direction == "left":
         start_x = 3200
         start_y = 222
         end_x = 2800
         end_y = 222
-        duur = 0.7
+        duur = 0.8
     elif direction == "right":
         start_x = 2800
         start_y = 222
         end_x = 3200
         end_y = 222
-        duur = 0.7
+        duur = 0.8
 
     print("dragging : ", direction)
     pyautogui.moveTo(start_x, start_y)
@@ -164,17 +164,17 @@ def starttopleftcorner():
     for _ in range(1, 4, 1):
         pyautogui.moveTo(2560+51, 0+90)
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560+615+51, 0+300+90, duration=0.7)
+        pyautogui.moveTo(2560+615+51, 0+300+40, duration=0.7)
         pyautogui.mouseUp()
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560+615+51, 0+300+90, duration=0.1)
+        pyautogui.moveTo(2560+615+51, 0+300+40, duration=0.1)
         pyautogui.mouseUp()
 
 
 def down():
     pyautogui.moveTo(2880, 390)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 90, duration=0.4)
+    pyautogui.moveTo(2880, 90, duration=0.5)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
     pyautogui.moveTo(2880, 90, duration=0.1)
@@ -189,7 +189,7 @@ def down():
 def up():
     pyautogui.moveTo(2880, 90)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 390, duration=0.4)
+    pyautogui.moveTo(2880, 390, duration=0.5)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
     pyautogui.moveTo(2880, 390, duration=0.1)
@@ -204,7 +204,7 @@ def up():
 def right():
     pyautogui.moveTo(2560+651, 240)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2560+51, 240, duration=0.7)
+    pyautogui.moveTo(2560+51, 240, duration=0.8)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
     pyautogui.moveTo(2560+51, 240, duration=0.1)

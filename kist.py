@@ -23,9 +23,11 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
+
 def enablectrlc():
     '''enable ctrl-c'''
     signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
     '''zoekt plaatje in smurf windows'''
@@ -39,12 +41,14 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
             x1, y1, width, length, name = roi
             x2 = x1 + 60
             y2 = y1 + 90
-            width2= width - 60
+            width2 = width - 60
             length2 = length - 110
             location = None
             try:
-                location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
-                                                          region=(x2, y2, width2, length2)) # type: ignore
+                location = pyautogui.locateCenterOnScreen(image_path,
+                                                          confidence=confidencevalue,
+                                                          region=(x2, y2,
+                                                                  width2, length2))  # type: ignore
             except pyautogui.ImageNotFoundException:
                 pass
             if location:
@@ -62,12 +66,12 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
 
 
 def drag_window(direction):
-    '''drag smurf windows'''	
+    '''drag smurf windows'''
     start_x = 0
     start_y = 0
     end_x = 0
     end_y = 0
-    duration=0.1
+    duration = 0.1
     if direction == "up":
         start_x = 2880
         start_y = 100
@@ -107,24 +111,25 @@ def drag_window(direction):
     pyautogui.mouseDown()
     pyautogui.mouseUp()
 
+
 def main():
-    '''main function'''	
+    '''main function'''
     enablectrlc()
 
     for _ in range(3):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
 
     for _ in range(4):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("down")
 
     drag_window("left")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
@@ -136,19 +141,19 @@ def main():
         drag_window("right")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("down")
 
     drag_window("left")
 
     for _ in range(3):
-        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS,confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
 
