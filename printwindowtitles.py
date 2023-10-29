@@ -7,16 +7,16 @@ def get_window_coords():
     coords = []
 
     def callback(hwnd, _):
-        if win32gui.IsWindowVisible(hwnd):
-            rect = win32gui.GetWindowRect(hwnd)
+        if win32gui.IsWindowVisible(hwnd):  # pylint: disable=I1101
+            rect = win32gui.GetWindowRect(hwnd)  # pylint: disable=I1101
             x = rect[0]
             y = rect[1]
             w = rect[2] - x
             h = rect[3] - y
-            titel = win32gui.GetWindowText(hwnd)
+            titel = win32gui.GetWindowText(hwnd)  # pylint: disable=I1101
             coords.append((titel, x, y, w, h))
         return True
-    win32gui.EnumWindows(callback, None)
+    win32gui.EnumWindows(callback, None)  # pylint: disable=I1101
     return coords
 
 

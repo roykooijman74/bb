@@ -67,6 +67,7 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
 
 
 def moveit():
+    '''move smurf windows'''
     for _ in range(3):
         zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
@@ -157,6 +158,7 @@ def drag_window(direction):
 
 
 def starttopleftcorner():
+    ''' start top left corner '''
     for _ in range(1, 4, 1):
         pyautogui.moveTo(2560 + 51, 0 + 90)
         pyautogui.mouseDown()
@@ -168,6 +170,7 @@ def starttopleftcorner():
 
 
 def down():
+    ''' move down '''
     pyautogui.moveTo(2880, 390)
     pyautogui.mouseDown()
     pyautogui.moveTo(2880, 90, duration=0.5)
@@ -183,6 +186,7 @@ def down():
 
 
 def up():
+    ''' move up '''
     pyautogui.moveTo(2880, 90)
     pyautogui.mouseDown()
     pyautogui.moveTo(2880, 390, duration=0.5)
@@ -198,6 +202,8 @@ def up():
 
 
 def right():
+    ''' move to the right '''
+
     pyautogui.moveTo(2560 + 651, 240)
     pyautogui.mouseDown()
     pyautogui.moveTo(2560 + 51, 240, duration=0.8)

@@ -14,7 +14,7 @@ def main():
     print(f'X: {x}, Y: {y}')
 
     # Get the color of the pixel at the given coordinates
-    pixel_color = pyautogui.pixel(x, y)
+    pixel_color = pyautogui.pixel(x, y)  # type: ignore
 
     # Print the RGB values of the pixel color
     print(f"RGB values: {pixel_color}")

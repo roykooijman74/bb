@@ -16,10 +16,12 @@ def enablectrlc():
 
 def zoek_offset(plaatje, offsetx, i):
     '''zoek offset function'''
-
+    status = False
+    imagex = 0
+    imagey = 0
     try:
         imagex, imagey = pyautogui.locateCenterOnScreen(
-            plaatje, confidence=0.8)
+            plaatje, confidence=0.8)  # type: ignore
     except pyautogui.ImageNotFoundException:
         status = False
         imagex = 0
@@ -33,7 +35,7 @@ def zoek_offset(plaatje, offsetx, i):
         pyautogui.moveTo(xpositie, ypositie)
     finally:
         print(i, status, imagex, imagey, plaatje)
-    return status, imagex, imagey
+    return
 
 
 def main():

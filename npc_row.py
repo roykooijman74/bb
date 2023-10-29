@@ -1,4 +1,4 @@
-"""Python3.11"""
+'''python 3.11'''
 import signal
 import time
 from functools import partial
@@ -33,12 +33,14 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
     '''zoekplaat'''
     location = []
     status = 0
+    if rois is None:
+        rois = []
     for roi in rois:
         x1, y1, width, length, name = roi
         location = None
         try:
-            location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
-                                                      region=(x1, y1, width, length))
+            location = pyautogui.locateCenterOnScreen(
+                image_path, confidence=confidencevalue, region=(x1, y1, width, length))  # type: ignore
         except pyautogui.ImageNotFoundException:
             pass
 
@@ -56,8 +58,12 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
 def main():
     '''main function'''
     enablectrlc()
-    while True:
-        print("====Invasie")
+    for y in range(80, 440, 30):
+        pyautogui.moveTo(2670, y)
+        time.sleep(0.1)
+        pyautogui.click(button='left')
+        time.sleep(0.3)
+        print("====Searching for invasie")
         roiok = []
         for roi in SMURFWINDOWS:
             x1, y1, width, length, _ = roi
@@ -71,10 +77,16 @@ def main():
                 print("====Bruin")
                 time.sleep(0.1)
                 zoekplaatje("images/npc-vernietigen-bruin.png", 0, rois=roiok, wait=0)
-                time.sleep(0.4)
+                time.sleep(0.6)
                 print("====Groen")
                 zoekplaatje("images/npc-vernietigen-groen.png", 0, rois=roiok, wait=0)
             roiok = []
+
+    print("====Ready")
+
+    pyautogui.moveTo(2759, 44)
+    time.sleep(0.1)
+    pyautogui.click(button='left')
 
 
 if __name__ == '__main__':

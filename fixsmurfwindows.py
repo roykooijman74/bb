@@ -21,17 +21,18 @@ SMURFWINDOWS = [
 
 # loop through windows and move/resize
 for window in SMURFWINDOWS:
-    hwnd = win32gui.FindWindow(None, window[4])
+    hwnd = win32gui.FindWindow(None, window[4])  # pylint: disable=I1101
     if hwnd:
         # get current window position and size
-        _, _, win_width, win_height = win32gui.GetWindowRect(hwnd)
+        _, _, win_width, win_height = win32gui.GetWindowRect(hwnd)  # pylint: disable=I1101
         # set new window position and size
         win_pos_x, win_pos_y, win_width_new, win_height_new = window[:4]
         # move window
-        win32gui.SetWindowPos(hwnd, None, win_pos_x, win_pos_y,
-                              win_width_new, win_height_new, 0x0001)
-        # resize window
-        win32gui.SetWindowPos(hwnd, None, win_pos_x, win_pos_y,
-                              win_width_new, win_height_new, 0x0002 | 0x0040)
+        win32gui.SetWindowPos(   # pylint: disable=I1101
+            hwnd, None, win_pos_x, win_pos_y,
+            win_width_new, win_height_new, 0x0001)
+        win32gui.SetWindowPos(   # pylint: disable=I1101
+            hwnd, None, win_pos_x, win_pos_y,
+            win_width_new, win_height_new, 0x0002 | 0x0040)
     else:
         print(f"Window '{window[4]}' not found.")

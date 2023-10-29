@@ -21,9 +21,9 @@ SMURFWINDOWS = [
 
 # loop through windows and move/resize
 for window in SMURFWINDOWS:
-    hwnd = win32gui.FindWindow(None, window[4])  # find the window
+    hwnd = win32gui.FindWindow(None, window[4])  # find the window # pylint: disable=I1101
     if hwnd:
-        win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)  # close the window
+        win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)  # close the window # pylint: disable=I1101
         print(window, window[0]+500, window[1]+270)
         # close = x+ 500  en windowshift = -2560)
         pyautogui.moveTo(window[0]+500, window[1]+270)

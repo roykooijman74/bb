@@ -1,8 +1,9 @@
+'''python 3.11'''
 import sys
 import pyautogui
 
 
-def drag_window(direction):
+def drag_window(direction, duration=0.1):
     '''Drag the window in the specified direction.'''
     start_x, start_y, end_x, end_y = 0, 0, 0, 0
 
@@ -33,8 +34,8 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage: python drag.py [left|right|up|down]")
     else:
-        direction = sys.argv[1]
-        if direction in ["left", "right", "up", "down"]:
-            drag_window(direction)
+        directionarg = sys.argv[1]
+        if directionarg in ["left", "right", "up", "down"]:
+            drag_window(directionarg)
         else:
             print("Invalid direction. Use 'left', 'right', 'up', or 'down'.")
