@@ -42,7 +42,7 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
             x2 = x1 + 50
             y2 = y1 + 90
             width2 = width - 60
-            length2 = length - 110
+            length2 = length - 120
             location = None
             try:
                 location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
@@ -220,8 +220,6 @@ def main():
     '''main function'''
     enablectrlc()
     starttopleftcorner()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
     zoekplaatje(r"images\kistje.png", 0,
                 rois=SMURFWINDOWS, confidencevalue=0.8)
