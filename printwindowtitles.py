@@ -1,9 +1,11 @@
 """Python3.11"""
 import win32gui
 
+
 def get_window_coords():
     '''Returns the coordinates	'''
     coords = []
+
     def callback(hwnd, _):
         if win32gui.IsWindowVisible(hwnd):
             rect = win32gui.GetWindowRect(hwnd)
@@ -16,6 +18,7 @@ def get_window_coords():
         return True
     win32gui.EnumWindows(callback, None)
     return coords
+
 
 # Get a list of all visible window titles and their coordinates
 window_coords = get_window_coords()

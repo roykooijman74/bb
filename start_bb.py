@@ -104,8 +104,8 @@ def main():
     total_instances = len(SMURFWINDOWS)
     print(total_instances)
     while total_instances > 0:
-        #print("searching android start")
-        #zoekplaatjesimpel("images/start-android.png")
+        # print("searching android start")
+        # zoekplaatjesimpel("images/start-android.png")
         print("searching boombeach app start")
         zoekplaatje("images/start-boombeach.png", rois=SMURFWINDOWS)
         time.sleep(0.5)

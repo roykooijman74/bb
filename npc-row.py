@@ -23,13 +23,15 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
+
 def enablectrlc():
     '''enable ctrl-c'''
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
     '''zoekplaat'''
-    location=[]
+    location = []
     status = 0
     for roi in rois:
         x1, y1, width, length, name = roi
@@ -50,11 +52,12 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
             print("=============================", x, y, status, image_path, name)
     return status
 
+
 def main():
-    '''main function'''	
+    '''main function'''
     enablectrlc()
-    x=80
-    for y in range(80,440,30):
+    x = 80
+    for y in range(80, 440, 30):
         pyautogui.moveTo(2670, y)
         time.sleep(0.1)
         pyautogui.click(button='left')
@@ -80,14 +83,10 @@ def main():
 
     print("====Ready")
 
-    pyautogui.moveTo(2759,44)
+    pyautogui.moveTo(2759, 44)
     time.sleep(0.1)
     pyautogui.click(button='left')
 
+
 if __name__ == '__main__':
     main()
- 
- 
- 
- 
- 

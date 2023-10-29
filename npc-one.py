@@ -23,13 +23,15 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
+
 def enablectrlc():
     '''enable ctrl-c'''
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
     '''zoekplaat'''
-    location=[]
+    location = []
     status = 0
     for roi in rois:
         x1, y1, width, length, name = roi
@@ -50,8 +52,9 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
             print("=============================", x, y, status, image_path, name)
     return status
 
+
 def main():
-    '''main function'''	
+    '''main function'''
     enablectrlc()
     while True:
         print("====Invasie")
@@ -73,6 +76,6 @@ def main():
                 zoekplaatje("images/npc-vernietigen-groen.png", 0, rois=roiok, wait=0)
             roiok = []
 
+
 if __name__ == '__main__':
     main()
- 

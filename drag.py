@@ -1,6 +1,7 @@
 import sys
 import pyautogui
 
+
 def drag_window(direction):
     '''Drag the window in the specified direction.'''
     start_x, start_y, end_x, end_y = 0, 0, 0, 0
@@ -26,6 +27,7 @@ def drag_window(direction):
     pyautogui.mouseDown()
     pyautogui.moveTo(end_x, end_y, duration=0.1)
     pyautogui.mouseUp()
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

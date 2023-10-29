@@ -3,7 +3,7 @@ import time
 import signal
 from PIL import ImageGrab
 from functools import partial
-import pytesseract                  #ocr
+import pytesseract  # ocr
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -24,11 +24,12 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
-#X: 3244, Y: 63              X: 3290, Y: 72
+# X: 3244, Y: 63              X: 3290, Y: 72
 
 
 def enablectrlc():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
+
 
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
     status = 0
@@ -43,8 +44,8 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
                 # Capture a screenshot of the entire screen
 
                 # Define the region to capture (left, top, width, height)
-                #region = (x1+3224-2560, y1+63, 3290-3244, 72-63)
-                region=(3224, 63, 56,9)
+                # region = (x1+3224-2560, y1+63, 3290-3244, 72-63)
+                region = (3224, 63, 56, 9)
                 print(name, region)
                 # Crop the screenshot to the defined region
                 cropped_image = screenshot.crop(region)
@@ -54,20 +55,19 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
 
                 # Print the extracted text
                 print(text)
-            
-                
-                #location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue, region=(x2, y2, width2, length2))
+
+                # location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue, region=(x2, y2, width2, length2))
             except:
                 pass
 
             if location:
-                #x = location[0]
-                #y = location[1] + offset
-                #pyautogui.moveTo(x, y)
-                #time.sleep(wait)
-                #pyautogui.click(button='left')
-                #status += 1
-                #found = True
+                # x = location[0]
+                # y = location[1] + offset
+                # pyautogui.moveTo(x, y)
+                # time.sleep(wait)
+                # pyautogui.click(button='left')
+                # status += 1
+                # found = True
                 print("=============================", x, y, status, image_path, name)
         if not found:
             break  # If no instances were found in this iteration, exit the loop
@@ -78,8 +78,7 @@ def main():
     enablectrlc()
     zoekplaatje("images\kistje.png", 0, rois=SMURFWINDOWS)
 
+
 if __name__ == '__main__':
     false_counter = 0
     main()
-
-
