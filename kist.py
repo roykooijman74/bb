@@ -9,28 +9,28 @@ from PIL import ImageGrab
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
 SMURFWINDOWS = [
-    [2560, 0, 790, 460, 'Smurf 1'],
-    [3414, 0, 790, 460, 'Smurf 2'],
-    [4267, 0, 790, 460, 'Smurf 3'],
-    [2560, 461, 790, 460, 'Smurf 4'],
-    [3414, 461, 790, 460, 'Smurf 5'],
-    [4267, 461, 790, 460, 'Smurf 6'],
-    [2560, 921, 790, 460, 'Smurf 7'],
-    [3414, 921, 790, 460, 'Smurf 8'],
-    [4267, 921, 790, 460, 'Smurf 9'],
-    [1770, 0, 790, 460, 'Smurf 0'],
-    [1770, 461, 790, 460, 'A Supersmurf'],
-    [1770, 921, 790, 460, 'B MiniSmurf']
+    [2560, 0, 790, 460, "Smurf 1"],
+    [3414, 0, 790, 460, "Smurf 2"],
+    [4267, 0, 790, 460, "Smurf 3"],
+    [2560, 461, 790, 460, "Smurf 4"],
+    [3414, 461, 790, 460, "Smurf 5"],
+    [4267, 461, 790, 460, "Smurf 6"],
+    [2560, 921, 790, 460, "Smurf 7"],
+    [3414, 921, 790, 460, "Smurf 8"],
+    [4267, 921, 790, 460, "Smurf 9"],
+    [1770, 0, 790, 460, "Smurf 0"],
+    [1770, 461, 790, 460, "A Supersmurf"],
+    [1770, 921, 790, 460, "B MiniSmurf"],
 ]
 
 
 def enablectrlc():
-    '''enable ctrl-c'''
+    """enable ctrl-c"""
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 
 def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
-    '''zoekt plaatje in smurf windows'''
+    """zoekt plaatje in smurf windows"""
     if rois is None:
         rois = []
     status = 0
@@ -45,8 +45,11 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
             length2 = length - 120
             location = None
             try:
-                location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue,
-                                                          region=(x2, y2, width2, length2))  # type: ignore
+                location = pyautogui.locateCenterOnScreen(
+                    image_path,
+                    confidence=confidencevalue,
+                    region=(x2, y2, width2, length2),
+                )  # type: ignore
             except pyautogui.ImageNotFoundException:
                 pass
             if location:
@@ -54,11 +57,10 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
                 y = location[1] + offset
                 pyautogui.moveTo(x, y)
                 time.sleep(wait)
-                pyautogui.click(button='left')
+                pyautogui.click(button="left")
                 status += 1
                 found = True
-                print("=============================",
-                      x, y, status, image_path, name)
+                print("=============================", x, y, status, image_path, name)
         if not found:
             break  # If no instances were found in this iteration, exit the loop
     return status
@@ -66,22 +68,19 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
 
 def moveit():
     for _ in range(3):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
 
     for _ in range(4):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("down")
 
     drag_window("left")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
@@ -93,27 +92,24 @@ def moveit():
         drag_window("right")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
     drag_window("left")
 
     for _ in range(5):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("down")
 
     drag_window("left")
 
     for _ in range(3):
-        zoekplaatje(r"images\kistje.png", 0,
-                    rois=SMURFWINDOWS, confidencevalue=0.8)
+        zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
         drag_window("up")
 
 
 def drag_window(direction):
-    '''drag smurf windows'''
+    """drag smurf windows"""
     start_x = 0
     start_y = 0
     end_x = 0
@@ -162,12 +158,12 @@ def drag_window(direction):
 
 def starttopleftcorner():
     for _ in range(1, 4, 1):
-        pyautogui.moveTo(2560+51, 0+90)
+        pyautogui.moveTo(2560 + 51, 0 + 90)
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560+615+51, 0+300+40, duration=0.7)
+        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=0.7)
         pyautogui.mouseUp()
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560+615+51, 0+300+40, duration=0.1)
+        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=0.1)
         pyautogui.mouseUp()
 
 
@@ -202,12 +198,12 @@ def up():
 
 
 def right():
-    pyautogui.moveTo(2560+651, 240)
+    pyautogui.moveTo(2560 + 651, 240)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2560+51, 240, duration=0.8)
+    pyautogui.moveTo(2560 + 51, 240, duration=0.8)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
-    pyautogui.moveTo(2560+51, 240, duration=0.1)
+    pyautogui.moveTo(2560 + 51, 240, duration=0.1)
     pyautogui.mouseUp()
     pyautogui.moveTo(2966, 48)
     pyautogui.mouseDown()
@@ -217,67 +213,48 @@ def right():
 
 
 def main():
-    '''main function'''
+    """main function"""
     enablectrlc()
     starttopleftcorner()
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     right()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     right()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     down()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     right()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
-    zoekplaatje(r"images\kistje.png", 0,
-                rois=SMURFWINDOWS, confidencevalue=0.8)
+    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
