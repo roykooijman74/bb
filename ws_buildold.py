@@ -14,31 +14,28 @@ def enablectrlc():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 
-def zoekplaatje(image_path, offset=0, confidencevalue=0.6, wait=0.1):
+def zoek_offset(plaatje, offsetx, i):
+    '''zoek offset function'''
+    status = False
     imagex = 0
     imagey = 0
-    location = []
-    status = 0
-    print("searching for ",image_path)
-
     try:
-        location = pyautogui.locateCenterOnScreen(
-            image_path, confidence=confidencevalue)  # type: ignore
+        imagex, imagey = pyautogui.locateCenterOnScreen(
+            plaatje, confidence=0.8)  # type: ignore
     except pyautogui.ImageNotFoundException:
-        print("not found")
-        pass
-        
-
-    if location:
-        x = location[0]
-        y = location[1] + offset
-        pyautogui.moveTo(x, y)
-        time.sleep(wait)
+        status = False
+        imagex = 0
+        imagey = 0
+    else:
+        xpositie, ypositie = pyautogui.position()
+        status = True
+        pyautogui.moveTo(x=imagex+offsetx, y=imagey)
+        time.sleep(0.1)
         pyautogui.click(button='left')
-        status = status + 1
-        print("=============================", x, y, status, image_path)
-    return status
-
+        pyautogui.moveTo(xpositie, ypositie)
+    finally:
+        print(i, status, imagex, imagey, plaatje)
+    return
 
 
 def main():
@@ -49,8 +46,8 @@ def main():
     while True:
         i = i+1
         print("zoek v")
-        zoekplaatje(r"images\ws-place-ok.png", 0)
-        time.sleep(0.5)
+        zoek_offset(r"images\ws-place-ok.png", 0, i)
+        time.sleep(0.1)
         if i == 5:
             pyautogui.moveTo(2635, 414)
             pyautogui.click(button='left')

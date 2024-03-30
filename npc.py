@@ -1,4 +1,4 @@
-"""Python3.11"""
+'''python 3.11'''
 import signal
 import time
 from functools import partial
@@ -33,34 +33,37 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
     '''zoekplaat'''
     location = []
     status = 0
-    if rois is not None:
+    if rois is None:
+        rois = []
+    for roi in rois:
+        x1, y1, width, length, name = roi
+        location = None
+        try:
+            location = pyautogui.locateCenterOnScreen(
+                image_path, confidence=confidencevalue, region=(x1, y1, width, length))  # type: ignore
+        except pyautogui.ImageNotFoundException:
+            pass
 
-        for roi in rois:
-            x1, y1, width, length, name = roi
-            location = None
-            try:
-                location = pyautogui.locateCenterOnScreen(
-                    image_path, confidence=confidencevalue,
-                    region=(x1, y1, width, length))  # type: ignore
-            except pyautogui.ImageNotFoundException:
-                pass
-
-            if location:
-                x = location[0]
-                y = location[1] + offset
-                pyautogui.moveTo(x, y)
-                time.sleep(wait)
-                pyautogui.click(button='left')
-                status = status + 1
-                print("=============================", x, y, status, image_path, name)
+        if location:
+            x = location[0]
+            y = location[1] + offset
+            pyautogui.moveTo(x, y)
+            time.sleep(wait)
+            pyautogui.click(button='left')
+            status = status + 1
+            print("=============================", x, y, status, image_path, name)
     return status
 
 
 def main():
     '''main function'''
     enablectrlc()
-    while True:
-        print("====Invasie")
+    for y in range(80, 440, 30):
+        pyautogui.moveTo(2670, y)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(1.4)
+        print("====Searching for invasie")
         roiok = []
         for roi in SMURFWINDOWS:
             x1, y1, width, length, _ = roi
@@ -69,15 +72,22 @@ def main():
                 roiok.append(roi)
 
         if roiok:
-            status = zoekplaatje("images/npc-invasie2.png", 70, rois=roiok, wait=0.5)
+            status = zoekplaatje("images/npc-invasie2.png", 70, rois=roiok, wait=0.6)
             if status > 0:
                 print("====Bruin")
-                time.sleep(0.1)
-                zoekplaatje("images/npc-vernietigen-bruin.png", 0, rois=roiok, wait=0)
-                time.sleep(0.4)
+                time.sleep(1.0)
+                zoekplaatje("images/npc-vernietigen-bruin.png", 0, rois=roiok, wait=0.4)
+                time.sleep(1.5)
                 print("====Groen")
-                zoekplaatje("images/npc-vernietigen-groen.png", 0, rois=roiok, wait=0)
+                zoekplaatje("images/npc-vernietigen-groen.png", 0, rois=roiok, wait=0.4)
+                time.sleep(0.4)
             roiok = []
+
+    print("====Ready")
+
+    pyautogui.moveTo(2759, 44)
+    time.sleep(0.5)
+    pyautogui.click(button='left')
 
 
 if __name__ == '__main__':

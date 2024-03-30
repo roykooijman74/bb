@@ -2,3 +2,8 @@
 /.vscode
 .vscode
 .pylinterrc
+__pycache__
+/bb_venv
+/bb_venv_old
+/bb_venv'
+*.lnk

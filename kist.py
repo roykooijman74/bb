@@ -42,7 +42,7 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
             x2 = x1 + 50
             y2 = y1 + 90
             width2 = width - 60
-            length2 = length - 120
+            length2 = length - 130
             location = None
             try:
                 location = pyautogui.locateCenterOnScreen(
@@ -122,25 +122,25 @@ def drag_window(direction):
         start_y = 100
         end_x = 2880
         end_y = 385
-        duur = 0.5
+        duur = 0.7
     elif direction == "down":
         start_x = 2880
         start_y = 385
         end_x = 2880
         end_y = 100
-        duur = 0.5
+        duur = 0.7
     elif direction == "left":
         start_x = 3200
         start_y = 222
         end_x = 2800
         end_y = 222
-        duur = 0.8
+        duur = 1.0
     elif direction == "right":
         start_x = 2800
         start_y = 222
         end_x = 3200
         end_y = 222
-        duur = 0.8
+        duur = 1.0
 
     print("dragging : ", direction)
     pyautogui.moveTo(start_x, start_y)
@@ -148,7 +148,7 @@ def drag_window(direction):
     pyautogui.moveTo(end_x, end_y, duration=duur)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
-    pyautogui.moveTo(end_x, end_y, duration=0.1)
+    pyautogui.moveTo(end_x, end_y, duration=0.2)
     pyautogui.mouseUp()
     pyautogui.moveTo(2966, 48)
     pyautogui.mouseDown()
@@ -162,10 +162,10 @@ def starttopleftcorner():
     for _ in range(1, 4, 1):
         pyautogui.moveTo(2560 + 51, 0 + 90)
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=0.7)
+        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=1.0)
         pyautogui.mouseUp()
         pyautogui.mouseDown()
-        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=0.1)
+        pyautogui.moveTo(2560 + 615 + 51, 0 + 300 + 40, duration=0.2)
         pyautogui.mouseUp()
 
 
@@ -173,10 +173,10 @@ def down():
     ''' move down '''
     pyautogui.moveTo(2880, 390)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 90, duration=0.5)
+    pyautogui.moveTo(2880, 90, duration=0.8)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 90, duration=0.1)
+    pyautogui.moveTo(2880, 90, duration=0.3)
     pyautogui.mouseUp()
     pyautogui.moveTo(2966, 48)
     pyautogui.mouseDown()
@@ -189,10 +189,10 @@ def up():
     ''' move up '''
     pyautogui.moveTo(2880, 90)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 390, duration=0.5)
+    pyautogui.moveTo(2880, 390, duration=0.8)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
-    pyautogui.moveTo(2880, 390, duration=0.1)
+    pyautogui.moveTo(2880, 390, duration=0.3)
     pyautogui.mouseUp()
     pyautogui.moveTo(2966, 48)
     pyautogui.mouseDown()
@@ -206,10 +206,10 @@ def right():
 
     pyautogui.moveTo(2560 + 651, 240)
     pyautogui.mouseDown()
-    pyautogui.moveTo(2560 + 51, 240, duration=0.8)
+    pyautogui.moveTo(2560 + 51, 240, duration=1.0)
     pyautogui.mouseUp()
     pyautogui.mouseDown()
-    pyautogui.moveTo(2560 + 51, 240, duration=0.1)
+    pyautogui.moveTo(2560 + 51, 240, duration=0.3)
     pyautogui.mouseUp()
     pyautogui.moveTo(2966, 48)
     pyautogui.mouseDown()

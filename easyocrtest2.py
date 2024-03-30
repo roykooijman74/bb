@@ -3,26 +3,31 @@ import time
 import signal
 from PIL import ImageGrab
 from functools import partial
-import pytesseract  # ocr
+
+import easyocr
+
+reader = easyocr.Reader(['en'])
+
+
 
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+#pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
 
 SMURFWINDOWS = [
-    [2560, 0, 790, 460, "Smurf 1"],
-    [3414, 0, 790, 460, "Smurf 2"],
-    [4267, 0, 790, 460, "Smurf 3"],
-    [2560, 461, 790, 460, "Smurf 4"],
-    [3414, 461, 790, 460, "Smurf 5"],
-    [4267, 461, 790, 460, "Smurf 6"],
-    [2560, 921, 790, 460, "Smurf 7"],
-    [3414, 921, 790, 460, "Smurf 8"],
-    [4267, 921, 790, 460, "Smurf 9"],
-    [1770, 0, 790, 460, "Smurf 0"],
-    [1770, 461, 790, 460, "A Supersmurf"],
-    [1770, 921, 790, 460, "B MiniSmurf"],
+#    [2560, 0, 790, 460, "Smurf 1"],
+#    [3414, 0, 790, 460, "Smurf 2"],
+#    [4267, 0, 790, 460, "Smurf 3"],
+#    [2560, 461, 790, 460, "Smurf 4"],
+#    [3414, 461, 790, 460, "Smurf 5"],
+#    [4267, 461, 790, 460, "Smurf 6"],
+#    [2560, 921, 790, 460, "Smurf 7"],
+#    [3414, 921, 790, 460, "Smurf 8"],
+#    [4267, 921, 790, 460, "Smurf 9"],
+    [1770, 0, 790, 460, "Smurf 0"]
+#    [1770, 461, 790, 460, "A Supersmurf"],
+#    [1770, 921, 790, 460, "B MiniSmurf"],
 ]
 
 # X: 3244, Y: 63              X: 3290, Y: 72
@@ -52,7 +57,9 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
                 cropped_image = screenshot.crop(region)
 
                 # Perform OCR on the cropped image
-                text = pytesseract.image_to_string(cropped_image)
+                
+                #text = pytesseract.image_to_string(cropped_image)
+                text = reader.readtext(cropped_image)
 
                 # Print the extracted text
                 print(text)

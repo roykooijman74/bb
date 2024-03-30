@@ -1,4 +1,5 @@
 '''python 3.11'''
+from logging import root
 import signal
 import time
 from functools import partial
@@ -58,34 +59,54 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
 def main():
     '''main function'''
     enablectrlc()
+    vernietigen_smurfs = []  # List to store smurf names found during "vernietigen" search
+
     for y in range(80, 440, 30):
         pyautogui.moveTo(2670, y)
-        time.sleep(0.1)
+        time.sleep(0.2)
         pyautogui.click(button='left')
-        time.sleep(0.3)
+        time.sleep(1.4)
         print("====Searching for invasie")
         roiok = []
         for roi in SMURFWINDOWS:
-            x1, y1, width, length, _ = roi
+            x1, y1, width, length, name = roi
             if pyautogui.locateOnScreen("images/npc-invasie2.png", confidence=0.7,
                                         region=(x1, y1, width, length)):
                 roiok.append(roi)
 
         if roiok:
-            status = zoekplaatje("images/npc-invasie2.png", 70, rois=roiok, wait=0.5)
+            status = zoekplaatje("images/npc-invasie2.png", 70, rois=roiok, wait=0.6)
             if status > 0:
-                print("====Bruin")
-                time.sleep(0.1)
-                zoekplaatje("images/npc-vernietigen-bruin.png", 0, rois=roiok, wait=0)
-                time.sleep(0.6)
-                print("====Groen")
-                zoekplaatje("images/npc-vernietigen-groen.png", 0, rois=roiok, wait=0)
-            roiok = []
+                # Add smurf names found during "vernietigen" to the respective lists
+                for smurf_info in roiok:
+                    _, _, _, _, smurf_name = smurf_info
+                    vernietigen_smurfs.append(smurf_name)
+            print("vernietigen smurfs found")
+
+            print('brown loop')
+            # Perform clicks on brown coordinates for each smurf found during "vernietigen"
+            for smurf_info in roiok:
+                x1, y1, _, _, _ = smurf_info
+                x, y = x1 + 478, y1 + 206  # Brown coordinates relative to x1, y1
+                print(smurf_info[4], "brown",x,y)
+                pyautogui.moveTo(x, y)
+                pyautogui.click(button='left')
+                time.sleep(0.4)
+
+            print('green loop')
+            # Perform clicks on green coordinates for each smurf found during "vernietigen"
+            for smurf_info in roiok:
+                x1, y1, _, _, _ = smurf_info
+                x, y = x1 + 433, y1 + 310  # Green coordinates relative to x1, y1
+                print(smurf_info[4], "green",x,y)
+                pyautogui.moveTo(x, y)
+                pyautogui.click(button='left')
+                time.sleep(0.4)
 
     print("====Ready")
 
     pyautogui.moveTo(2759, 44)
-    time.sleep(0.1)
+    time.sleep(0.5)
     pyautogui.click(button='left')
 
 
