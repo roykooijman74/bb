@@ -11,14 +11,18 @@ def main():
 
     # Print the cursor position
 #    print('X: {}, Y: {}'.format(x, y))
-    print(f'X: {x}, Y: {y}')
+    #print(f'X: {x}, Y: {y}')
 
     # Get the color of the pixel at the given coordinates
     pixel_color = pyautogui.pixel(x, y)  # type: ignore
 
     # Print the RGB values of the pixel color
-    print(f"RGB values: {pixel_color}")
+    print(f'"thing": [{x}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}]')
+    print(f'item = [{x}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}]')
 
+    print(f'smurf 1 item = [{x-2560}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}, "item"]')
+
+    #print(type(pixel_color))
 
 if __name__ == '__main__':
     main()

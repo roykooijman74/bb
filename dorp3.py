@@ -1,16 +1,12 @@
-'''python 3.11'''
-from logging import root
 import signal
 import time
 from functools import partial
-
 import pyautogui
 from PIL import ImageGrab
 
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 
 SMURFWINDOWS = [
-    [2560, 0, 790, 460, 'Smurf 1'],
     [3414, 0, 790, 460, 'Smurf 2'],
     [4267, 0, 790, 460, 'Smurf 3'],
     [2560, 461, 790, 460, 'Smurf 4'],
@@ -24,111 +20,71 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, 'B MiniSmurf']
 ]
 
-
-def enablectrlc():
-    '''enable ctrl-c'''
+def enable_ctrl_c():
+    '''Enable Ctrl-C interruption'''
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+def search_image(image_path, npcteller, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
+    '''Search for an image within specified regions of interest (ROIs)'''
+    rois = rois or []
+    status, found_x, found_y = 0, None, None
 
-def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.1):
-    '''zoekplaat'''
-    location = []
-    status = 0
-    if rois is None:
-        rois = []
     for roi in rois:
         x1, y1, width, length, name = roi
-        location = None
-        try:
-            location = pyautogui.locateCenterOnScreen(
-                image_path, confidence=confidencevalue, region=(x1, y1, width, length))  # type: ignore
-        except pyautogui.ImageNotFoundException:
-            pass
+        location = pyautogui.locateCenterOnScreen(image_path, confidence=confidencevalue, region=(x1, y1, width, length))
 
         if location:
-            x = location[0]
-            y = location[1] + offset
+            x, y = location[0], location[1] + offset
             pyautogui.moveTo(x, y)
             time.sleep(wait)
             pyautogui.click(button='left')
-            status = status + 1
-            print(name, "vernietigen", x, y)
-    return status,x,y
+            status += 1
+            print(npcteller, name, "destroyed at", x, y)
+            npcteller += 1
+            found_x, found_y = x, y
 
+    return npcteller, status, found_x, found_y
 
 def main():
-    '''main function'''
-    enablectrlc()
-    vernietigen_smurfs = []  # List to store smurf names found during "vernietigen" search
+    '''Main function'''
+    enable_ctrl_c()
+    loop_counter, npc_counter = 0, 1
 
     for y in range(80, 440, 30):
         pyautogui.moveTo(2670, y)
         time.sleep(0.2)
         pyautogui.click(button='left')
         time.sleep(1.8)
-        print("=======  Searching for invasie")
-        roiok = []
-        for roi in SMURFWINDOWS:
-            x1, y1, width, length, name = roi
-            if pyautogui.locateOnScreen("images/npc-invasie2.png", confidence=0.7,
-                                        region=(x1, y1, width, length)):
-                roiok.append(roi)
+        loop_counter += 1
+        print("======= Searching for invasion:", loop_counter)
 
-        if roiok:
-            status,foundx,foundy = zoekplaatje("images/npc-invasie2.png", 70, rois=roiok, wait=0.1)
+        valid_rois = [roi for roi in SMURFWINDOWS if pyautogui.locateOnScreen("images/npc-invasie2.png", confidence=0.7, region=(roi[0], roi[1], roi[2], roi[3]))]
+
+        if valid_rois:
+            npc_counter, status, found_x, found_y = search_image("images/npc-invasie2.png", npc_counter, 70, rois=valid_rois, wait=0.1)
+
             if status > 0:
-                # Add smurf names found during "vernietigen" to the respective lists
-                for smurf_info in roiok:
-                    _, _, _, _, smurf_name = smurf_info
-                vernietigen_smurfs.append((smurf_name, foundx, foundy))
-            #print("vernietigen smurfs found")
-            if len(roiok) == 1:
-                #print("sleep 2 because len 1")
-                time.sleep(2.0)
-            else:
-                #print("sleep 0,3 because len >1")
-                time.sleep(0.3)
-            #print('----- brown loop')
-            # Perform clicks on brown coordinates for each smurf found during "vernietigen"
-            #print(f'================',len(roiok))
-            
-            for smurf_info in roiok:
-                x1, y1, _, _, _ = smurf_info
-                #print(smurf_info[4], "brown",x1,"diff ",x1-478)
-                x, y = x1 + 478, y1 + 206  # Brown coordinates relative to x1, y1
-                #print(smurf_info[4], "brown",x1,x,smurf_info[0],"diff ",x-x1)
-                #,smurf_info[0]-x1,smurf_info[2]-y1)
-                pyautogui.moveTo(x, y)
-                pyautogui.click(button='left')
-                if len(roiok) == 1:
-                    #print("sleep 1 because len 1")
-                    time.sleep(1.0)
-                else:
-                    #print("sleep 0,3 because len >1")
-                    time.sleep(0.3)
-            time.sleep(0.6)
+                for smurf_info in valid_rois:
+                    x1, y1, _, _, smurf_name = smurf_info
+                    print(smurf_name, "detected at", found_x, found_y)
 
-            #print('----- green loop')
-            # Perform clicks on green coordinates for each smurf found during "vernietigen"
-            for smurf_info in roiok:
-                x1, y1, _, _, _ = smurf_info
-                x, y = x1 + 433, y1 + 310  # Green coordinates relative to x1, y1
-                print(smurf_info[4], "green",x,y,x1,y1,smurf_info[0]-x1,smurf_info[2]-y1)
-                pyautogui.moveTo(x, y)
-                pyautogui.click(button='left')
-                if len(roiok) == 1:
-                    #print("sleep 1 because len 1")
-                    time.sleep(1.0)
-                else:
-                    #print("sleep 0,3 because len >1")
-                    time.sleep(0.3)
-            time.sleep(0.6)
+            sleep_time = 2.0 if len(valid_rois) == 1 else 0.3
+            time.sleep(sleep_time)
+
+            for smurf_info in valid_rois:
+                x1, y1 = smurf_info[:2]
+                brown_coords = (x1 + 478, y1 + 206)
+                green_coords = (x1 + 433, y1 + 310)
+
+                for coords in [brown_coords, green_coords]:
+                    pyautogui.moveTo(*coords)
+                    pyautogui.click(button='left')
+                    time.sleep(sleep_time)
+
     print("====Ready")
-
     pyautogui.moveTo(2759, 44)
     time.sleep(0.5)
     pyautogui.click(button='left')
-
 
 if __name__ == '__main__':
     main()
