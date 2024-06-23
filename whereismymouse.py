@@ -21,6 +21,9 @@ def main():
     print(f'item = [{x}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}]')
 
     print(f'smurf 1 item = [{x-2560}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}, "item"]')
+    print(f'smurf 2 item = [{x-3414}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}, "item"]')
+    print(f'smurf 3 item = [{x-4267}, {y}, {pixel_color[0]}, {pixel_color[1]}, {pixel_color[2]}, "item"]')
+
 
     #print(type(pixel_color))
 

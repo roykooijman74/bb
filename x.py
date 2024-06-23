@@ -59,13 +59,13 @@ def check_item(windows, item=None):
         if check:
             pyautogui.leftClick(item_real_x, item_real_y)
 
-def check_item2(window = None, item=None):
-    #open attackmenu if not opened
-    item_real_x,item_real_y= item_real_position_on_screen(item,window)
-    check=WC.check_color_at_x_y(item_real_x,item_real_y,item[2],item[3],item[4])
-    print(window[4],item[5],check,item[2],item[3],item[4])
-    if check:
-        pyautogui.leftClick(item_real_x, item_real_y)
+# def check_item2(window = None, item=None):
+#     #open attackmenu if not opened
+#     item_real_x,item_real_y= item_real_position_on_screen(item,window)
+#     check=WC.check_color_at_x_y(item_real_x,item_real_y,item[2],item[3],item[4])
+#     print(window[4],item[5],check,item[2],item[3],item[4])
+#     if check:
+#         pyautogui.leftClick(item_real_x, item_real_y)
 
 
     

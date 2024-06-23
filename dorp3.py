@@ -68,12 +68,12 @@ def main():
                     x1, y1, _, _, smurf_name = smurf_info
                     print(smurf_name, "detected at", found_x, found_y)
 
-            sleep_time = 2.0 if len(valid_rois) == 1 else 0.3
+            sleep_time = 1.5 if len(valid_rois) == 1 else 0.5
             time.sleep(sleep_time)
 
             for smurf_info in valid_rois:
                 x1, y1 = smurf_info[:2]
-                brown_coords = (x1 + 478, y1 + 206)
+                brown_coords = (x1 + 498, y1 + 206)
                 green_coords = (x1 + 433, y1 + 310)
 
                 for coords in [brown_coords, green_coords]:
