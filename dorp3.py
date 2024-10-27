@@ -15,9 +15,9 @@ SMURFWINDOWS = [
     [2560, 921, 790, 460, 'Smurf 7'],
     [3414, 921, 790, 460, 'Smurf 8'],
     [4267, 921, 790, 460, 'Smurf 9'],
-    [1770, 0, 790, 460, 'Smurf 0'],
-    [1770, 461, 790, 460, 'A Supersmurf'],
-    [1770, 921, 790, 460, 'B MiniSmurf']
+    [1770, 0, 790, 460, 'A Supersmurf'],
+    [1770, 461, 790, 460, 'B MiniSmurf'],
+    [1770, 921, 790, 460, 'C KickSmurf'],
 ]
 
 def enable_ctrl_c():
@@ -66,20 +66,27 @@ def main():
             if status > 0:
                 for smurf_info in valid_rois:
                     x1, y1, _, _, smurf_name = smurf_info
-                    print(smurf_name, "detected at", found_x, found_y)
+                    #print(smurf_name, "detected at", found_x, found_y)
 
-            sleep_time = 1.5 if len(valid_rois) == 1 else 0.5
+            sleep_time = 1.5 if len(valid_rois) == 1 else 1.3
             time.sleep(sleep_time)
 
             for smurf_info in valid_rois:
                 x1, y1 = smurf_info[:2]
                 brown_coords = (x1 + 498, y1 + 206)
-                green_coords = (x1 + 433, y1 + 310)
-
-                for coords in [brown_coords, green_coords]:
+                for coords in [brown_coords]:
                     pyautogui.moveTo(*coords)
                     pyautogui.click(button='left')
-                    time.sleep(sleep_time)
+                    time.sleep(0.2)
+            time.sleep(sleep_time)
+
+            for smurf_info in valid_rois:
+                x1, y1 = smurf_info[:2]
+                green_coords = (x1 + 433, y1 + 310)
+                for coords in [green_coords]:
+                    pyautogui.moveTo(*coords)
+                    pyautogui.click(button='left')
+                    time.sleep(0.2)
 
     print("====Ready")
     pyautogui.moveTo(2759, 44)

@@ -1,4 +1,5 @@
-'''python 3.11'''
+#!D:\Users\Roy\Desktop\bb\bb_venv\Scripts\python.exe
+'''python 3.12'''
 import win32gui
 
 SMURFWINDOWS = [
@@ -14,9 +15,9 @@ SMURFWINDOWS = [
     [3414, 921, 790, 460, 'Smurf 8'],
     [4267, 921, 790, 460, 'Smurf 9'],
 
-    [1770, 0, 790, 460, 'Smurf 0'],
-    [1770, 461, 790, 460, 'A Supersmurf'],
-    [1770, 921, 790, 460, 'B MiniSmurf']
+    [1770, 0, 790, 460, 'A Supersmurf'],
+    [1770, 461, 790, 460, 'B MiniSmurf'],
+    [1770, 921, 790, 460, 'C KickSmurf']
 ]
 
 # loop through windows and move/resize

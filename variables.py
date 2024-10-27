@@ -33,10 +33,12 @@ dr_t_talking = [14, 58, 39, 62, 76, "dr t talking"]
 
 close_reward_textbox = [603, 109, 48, 71, 82, "close_reward_textbox"]
 
-collect_reward = [528, 374, 160, 217, 76, "collect_reward"]
-
+#collect_reward = [528, 374, 160, 217, 76, "collect_reward"]
+collect_reward = [494, 351, 160, 220, 80, "collect_reward"]
 
 village_taken = [173, 78, 161, 99, 99, "village_taken"]
 invasion = [479, 203, 44, 44, 54, "invasion"]
+invasion_left = [347, 202, 63, 62, 69, "invasion left"]
+
 destroy_brown = [478, 225, 200, 168, 80, "destroy brown"]    #first brown then green
 destroy_green = [431, 323, 160, 217, 72, "destroy green"]
