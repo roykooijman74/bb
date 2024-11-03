@@ -142,19 +142,25 @@ def main():
     #determine which smurf windows are active
     active_smurf_windows = WindowsChecker.check_active_windows(all_smurf_windows)
 
+    for y in range(80, 120, 30):
+        pyautogui.moveTo(2670, y)
+        pyautogui.click(button='left')
+
+    time.sleep(0.2)
+
     #for y in range(80, 440, 30):
-    for y in range(80, 440, 30):
+    for y in range(70, 440, 30):
         start_the_play_button(active_smurf_windows)
         # * move to menu position
         pyautogui.moveTo(2670, y)
         time.sleep(0.2)
         pyautogui.click(button='left')
-        time.sleep(0.8)
+        time.sleep(1.8)
         loop_counter += 1
         pause_the_play_button(active_smurf_windows)
 
         #check if everything is ready to start, if not exit
-        print("checking if everything is ok to start")
+#        print("checking if everything is ok to start")
         for smurf in active_smurf_windows:
             item = [30, 74, 95, 184, 229, "player level icon"]
             status, smurf = zoek_item_on_color(item, smurf)

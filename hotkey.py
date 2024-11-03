@@ -12,7 +12,7 @@ def check_hotkey():
     '''Check if	hotkey is pressed.'''
     hotkey_pressed = False
     while not hotkey_pressed:
-        if win32api.GetAsyncKeyState(HOTKEY) & 0x8000:  # pylint: disable=I1101
+        if win32api.GetAsyncKeyState(HOTKEY) & 0x8000:
             hotkey_pressed = True
 
 
