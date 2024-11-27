@@ -7,19 +7,6 @@ import win32gui
 import pyautogui
 from PIL import ImageGrab
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
-import time
-from functools import partial
-import pyautogui
-from PIL import ImageGrab
-import win32api
-import win32con
-import threading
-import os
-
-ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
-
-# Define the control key
-CTRL_KEY = win32con.VK_CONTROL
 
 # List of all windows (Smurfs) with coordinates and names
 all_smurf_windows = [
@@ -36,6 +23,10 @@ all_smurf_windows = [
     [1770, 461, 790, 460, 'B MiniSmurf'],
     [1770, 921, 790, 460, 'C KickSmurf'],
 ]
+
+def enable_ctrl_c():
+    """Enable Ctrl-C interruption."""
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class WindowsChecker:
     """Defines functions for checking windows and performing screen actions."""
@@ -120,8 +111,8 @@ def search_image(image_path, npcteller, offset=0, confidencevalue=0.7, rois=None
 
 def pause_the_play_button(active_smurf_windows):
     '''The play button will be pauzed'''
-    pyautogui.moveTo(2560+465,14)
-    item = [465, 14, 247, 250, 255, "pauze button"]
+    pyautogui.moveTo(2560+566,14)
+    item = [566, 14, 247, 250, 255, "pauze button"]
     status, smurf = zoek_item_on_color(item, active_smurf_windows[0])
     if status:
         click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
@@ -133,8 +124,8 @@ def start_the_play_button(active_smurf_windows):
     '''The play button will be started'''
     # ensure play/pause button is pauzed
     #move to pauze location to highligth the button
-    pyautogui.moveTo(2560+465,14)
-    item = [461, 18, 247, 250, 255, "start button"]
+    pyautogui.moveTo(2560+566,14)
+    item = [562, 17, 247, 250, 255, "start button"]
     status, smurf = zoek_item_on_color(item, active_smurf_windows[0])
     if status:
         click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
@@ -142,23 +133,9 @@ def start_the_play_button(active_smurf_windows):
     #else:
         #print("no need to press play")
 
-
-def countdown(duration):
-    for i in range(duration, 0, -1):
-        print(f"Countdown: {i}         ", end='\r')
-        time.sleep(1)
-    print("Countdown: 0")
-
-def check_ctrl_key():
-    """Thread function to check for Ctrl key press."""
-    while True:
-        # Check if Ctrl key is pressed down; if so, exit the program immediately
-        if win32api.GetAsyncKeyState(CTRL_KEY) & 0x8000:
-            print("Ctrl key pressed. Exiting program immediately...")
-            os._exit(0)  # Immediately terminate the program
-
-def mainlogic():
+def main():
     '''The  main logic of this wonderfull code'''
+    enable_ctrl_c()
     loop_counter = 0
     npc_counter = 0
 
@@ -182,22 +159,8 @@ def mainlogic():
         loop_counter += 1
         pause_the_play_button(active_smurf_windows)
 
-        # GOLD CHECK        
-        for smurf in active_smurf_windows:
-            falsegold=True
-            while falsegold:
-                item = [406, 46, 82, 67, 0, "gold grayed out"]
-                status, smurf = zoek_item_on_color(item, smurf)
-                if status:
-                    print(item[5], "found for ", smurf)
-                    click_on_screen_for_smurf(smurf,item[0],item[1])
-                    time.sleep(0.2)
-                else:
-                    falsegold=False
-
         #check if everything is ready to start, if not exit
 #        print("checking if everything is ok to start")
-
         for smurf in active_smurf_windows:
             item = [30, 74, 95, 184, 229, "player level icon"]
             status, smurf = zoek_item_on_color(item, smurf)
@@ -252,14 +215,6 @@ def mainlogic():
     pyautogui.moveTo(2759, 44)
     time.sleep(0.5)
     pyautogui.click(button='left')
-
-
-def main():
-    """main function, starts a thread to check for ctrl_key pressand starts the main func"""
-    ctrl_thread = threading.Thread(target=check_ctrl_key)
-    ctrl_thread.daemon = True  # Set as a daemon so it won't prevent program exit
-    ctrl_thread.start()
-    mainlogic()
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,78 @@
+'''
+
+WHITE
+
+Mouse is in Smurf 1 at position (2819, 315) with color (245, 248, 249)
+Relative position to Smurf 1: (259, 315)
+
+Table:
+Smurf           Mouse X Absolute    Mouse Y Absolute  Color            Same Color      R Diff    G Diff    B Diff
+--> Smurf 1                 2819                 315  (245, 248, 249)  True                 0         0         0
+Smurf 2                     3673                 315  (245, 248, 249)  True                 0         0         0
+Smurf 3                     4526                 315  (245, 248, 249)  True                 0         0         0
+Smurf 4                     2819                 776  (248, 250, 251)  True                 3         2         2
+Smurf 5                     3673                 776  (245, 248, 249)  True                 0         0         0
+Smurf 6                     4526                 776  (247, 250, 251)  True                 2         2         2
+Smurf 7                     2819                1236  (245, 248, 248)  True                 0         0        -1
+Smurf 8                     3673                1236  (248, 250, 251)  True                 3         2         2
+Smurf 9                     4526                1236  (245, 248, 249)  True                 0         0         0
+A Supersmurf                2029                 315  (248, 250, 251)  True                 3         2         2
+B MiniSmurf                 2029                 776  (255, 255, 255)  True                10         7         6
+C KickSmurf                 2029                1236  (248, 251, 252)  True                 3         3         3
+
+RED
+
+PS D:\Users\Roy\Desktop\bb> python .\whereismymouse.py     
+Mouse is in Smurf 1 at position (2819, 315) with color (245, 248, 249)
+Relative position to Smurf 1: (259, 315)
+
+Table:
+Smurf           Mouse X Absolute    Mouse Y Absolute  Color            Same Color      R Diff    G Diff    B Diff
+--> Smurf 1                 2819                 315  (245, 248, 249)  True                 0         0         0
+Smurf 2                     3673                 315  (233, 108, 63)   False              -12      -140      -186
+Smurf 3                     4526                 315  (255, 255, 255)  True                10         7         6
+Smurf 4                     2819                 776  (245, 248, 249)  True                 0         0         0
+Smurf 5                     3673                 776  (248, 250, 251)  True                 3         2         2
+Smurf 6                     4526                 776  (247, 250, 251)  True                 2         2         2
+Smurf 7                     2819                1236  (233, 108, 63)   False              -12      -140      -186
+Smurf 8                     3673                1236  (245, 248, 249)  True                 0         0         0
+Smurf 9                     4526                1236  (245, 248, 249)  True                 0         0         0
+C KickSmurf                 2029                1236  (248, 250, 251)  True                 3         2         2
+PS D:\Users\Roy\Desktop\bb> python .\movemouse.py 2819  315
+Mouse moved to (2819, 315)
+PS D:\Users\Roy\Desktop\bb> python .\whereismymouse.py     
+Mouse is in Smurf 1 at position (2819, 315) with color (245, 248, 249)
+Relative position to Smurf 1: (259, 315)
+
+Table:
+Smurf           Mouse X Absolute    Mouse Y Absolute  Color            Same Color      R Diff    G Diff    B Diff
+--> Smurf 1                 2819                 315  (245, 248, 249)  True                 0         0         0
+Smurf 2                     3673                 315  (245, 248, 248)  True                 0         0        -1
+Smurf 3                     4526                 315  (255, 255, 255)  True                10         7         6
+Smurf 4                     2819                 776  (245, 248, 249)  True                 0         0         0
+Smurf 5                     3673                 776  (248, 250, 251)  True                 3         2         2
+Smurf 6                     4526                 776  (235, 109, 64)   False              -10      -139      -185
+Smurf 7                     2819                1236  (245, 248, 249)  True                 0         0         0
+Smurf 8                     3673                1236  (245, 248, 249)  True                 0         0         0
+Smurf 9                     4526                1236  (245, 248, 249)  True                 0         0         0
+C KickSmurf                 2029                1236  (248, 250, 251)  True                 3         2         2
+PS D:\Users\Roy\Desktop\bb> python .\movemouse.py 2819  315
+Mouse moved to (2819, 315)
+PS D:\Users\Roy\Desktop\bb> python .\whereismymouse.py
+Mouse is in Smurf 1 at position (2819, 315) with color (245, 248, 249)
+Relative position to Smurf 1: (259, 315)
+
+Table:
+Smurf           Mouse X Absolute    Mouse Y Absolute  Color            Same Color      R Diff    G Diff    B Diff
+--> Smurf 1                 2819                 315  (245, 248, 249)  True                 0         0         0
+Smurf 2                     3673                 315  (233, 108, 63)   False              -12      -140      -186
+Smurf 3                     4526                 315  (255, 255, 255)  True                10         7         6
+Smurf 4                     2819                 776  (245, 248, 249)  True                 0         0         0
+Smurf 5                     3673                 776  (248, 250, 251)  True                 3         2         2
+Smurf 6                     4526                 776  (247, 250, 251)  True                 2         2         2
+Smurf 7                     2819                1236  (245, 248, 249)  True                 0         0         0
+Smurf 8                     3673                1236  (245, 248, 249)  True                 0         0         0
+Smurf 9                     4526                1236  (245, 248, 249)  True                 0         0         0
+C KickSmurf                 2029                1236  (248, 250, 251)  True                 3         2         2
+PS D:\Users\Roy\Desktop\bb>
+'''

@@ -1,17 +1,12 @@
 """Python3.11"""
 import time
+import signal
 from functools import partial
 import pyautogui
 from PIL import ImageGrab
-import win32api
-import win32con
-import threading
-import os
+
 
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
-
-# Define the control key
-CTRL_KEY = win32con.VK_CONTROL
 
 SMURFWINDOWS = [
     [2560, 0, 790, 460, "Smurf 1"],
@@ -28,22 +23,14 @@ SMURFWINDOWS = [
     [1770, 921, 790, 460, "C KickSmurf"],
 ]
 
-def countdown(duration):
-    for i in range(duration, 0, -1):
-        print(f"Countdown: {i}         ", end='\r')
-        time.sleep(1)
-    print("Countdown: 0")
-
-def check_ctrl_key():
-    """Thread function to check for Ctrl key press."""
-    while True:
-        # Check if Ctrl key is pressed down; if so, exit the program immediately
-        if win32api.GetAsyncKeyState(CTRL_KEY) & 0x8000:
-            print("Ctrl key pressed. Exiting program immediately...")
-            os._exit(0)  # Immediately terminate the program
 
 
-def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.3):
+def enablectrlc():
+    """enable ctrl-c"""
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+
+
+def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.0):
     """zoekt plaatje in smurf windows"""
     if rois is None:
         rois = []
@@ -150,8 +137,9 @@ def right():
     pyautogui.mouseUp()
 
 
-def mainlogic():
-    """main logic function"""
+def main():
+    """main function"""
+    enablectrlc()
     starttopleftcorner()
     down()
     zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
@@ -192,12 +180,6 @@ def mainlogic():
     up()
     zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
 
-def main():
-    """main function, starts a thread to check for ctrl_key pressand starts the main func"""
-    ctrl_thread = threading.Thread(target=check_ctrl_key)
-    ctrl_thread.daemon = True  # Set as a daemon so it won't prevent program exit
-    ctrl_thread.start()
-    mainlogic()
 
 if __name__ == "__main__":
     main()

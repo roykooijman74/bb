@@ -1,16 +1,11 @@
 ''' my python code for automating boring stuff in boom beach'''
 import sys
-import signal
-import time
 from functools import partial
 import win32gui
 import pyautogui
 from PIL import ImageGrab
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
 import time
-from functools import partial
-import pyautogui
-from PIL import ImageGrab
 import win32api
 import win32con
 import threading
@@ -32,10 +27,12 @@ all_smurf_windows = [
     [2560, 921, 790, 460, 'Smurf 7'],
     [3414, 921, 790, 460, 'Smurf 8'],
     [4267, 921, 790, 460, 'Smurf 9'],
-    [1770, 0, 790, 460, 'A Supersmurf'],
-    [1770, 461, 790, 460, 'B MiniSmurf'],
     [1770, 921, 790, 460, 'C KickSmurf'],
 ]
+#    [1770, 0, 790, 460, 'A Supersmurf'],
+#    [1770, 461, 790, 460, 'B MiniSmurf'],
+
+
 
 class WindowsChecker:
     """Defines functions for checking windows and performing screen actions."""
@@ -120,8 +117,8 @@ def search_image(image_path, npcteller, offset=0, confidencevalue=0.7, rois=None
 
 def pause_the_play_button(active_smurf_windows):
     '''The play button will be pauzed'''
-    pyautogui.moveTo(2560+465,14)
-    item = [465, 14, 247, 250, 255, "pauze button"]
+    pyautogui.moveTo(2560+566,14)
+    item = [566, 14, 247, 250, 255, "pauze button"]
     status, smurf = zoek_item_on_color(item, active_smurf_windows[0])
     if status:
         click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
@@ -133,8 +130,8 @@ def start_the_play_button(active_smurf_windows):
     '''The play button will be started'''
     # ensure play/pause button is pauzed
     #move to pauze location to highligth the button
-    pyautogui.moveTo(2560+465,14)
-    item = [461, 18, 247, 250, 255, "start button"]
+    pyautogui.moveTo(2560+566,14)
+    item = [562, 17, 247, 250, 255, "start button"]
     status, smurf = zoek_item_on_color(item, active_smurf_windows[0])
     if status:
         click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
@@ -160,102 +157,70 @@ def check_ctrl_key():
 def mainlogic():
     '''The  main logic of this wonderfull code'''
     loop_counter = 0
-    npc_counter = 0
+    max_counter = int(sys.argv[1])
+    max_counter = max_counter // 7
 
     #determine which smurf windows are active
     active_smurf_windows = WindowsChecker.check_active_windows(all_smurf_windows)
-
-    for y in range(80, 120, 30):
-        pyautogui.moveTo(2670, y)
-        pyautogui.click(button='left')
-
-    time.sleep(0.2)
-
-    #for y in range(80, 440, 30):
-    for y in range(70, 440, 30):
-        start_the_play_button(active_smurf_windows)
-        # * move to menu position
-        pyautogui.moveTo(2670, y)
+    while loop_counter < max_counter:
+        loop_counter+=1
+        print("loop:", loop_counter, "of max:", max_counter)
+        # click on create icon middle
+        pyautogui.moveTo(2779, 193)
         time.sleep(0.2)
         pyautogui.click(button='left')
-        time.sleep(1.8)
-        loop_counter += 1
-        pause_the_play_button(active_smurf_windows)
+        time.sleep(0.5)
 
-        # GOLD CHECK        
-        for smurf in active_smurf_windows:
-            falsegold=True
-            while falsegold:
-                item = [406, 46, 82, 67, 0, "gold grayed out"]
-                status, smurf = zoek_item_on_color(item, smurf)
-                if status:
-                    print(item[5], "found for ", smurf)
-                    click_on_screen_for_smurf(smurf,item[0],item[1])
-                    time.sleep(0.2)
-                else:
-                    falsegold=False
+        # move to duister
+        #pyautogui.moveTo(3106, 117)
+        
+        # move to red
+        pyautogui.moveTo(2981, 121)
 
-        #check if everything is ready to start, if not exit
-#        print("checking if everything is ok to start")
+        # move to blue
+        #pyautogui.moveTo(2869, 115)
+        
+        # move to green
+        #pyautogui.moveTo(2752, 121)
+        
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.5)
 
-        for smurf in active_smurf_windows:
-            item = [30, 74, 95, 184, 229, "player level icon"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                print(item[5], "found for ", smurf, "exiting as that shouldnt be visible")
-                sys.exit()
+        # click on sharf
+        pyautogui.moveTo(2779, 193)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.5)
 
+        # click on create icon left
+        pyautogui.moveTo(2757, 191)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        countdown(20)  # * : takes 20 seconds realtime, gametime 10 sec????
 
-        print("======= Searching for invasion:", loop_counter)
-        for smurf in active_smurf_windows:
-            # * reward check code
-            item = [507, 350, 160, 220, 72, "reward"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                click_on_screen_for_smurf(smurf,item[0],item[1])
-                print(item[5], "found for ", smurf)
+        # click on recycle brown
+        pyautogui.moveTo(3040, 310)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.5)
+        
+        # click on recycle green
+        pyautogui.moveTo(2994, 313)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.5)
+        
 
-            # * invasion left code
-            item = [429, 207, 243, 181, 1, "invasion left"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=-75, offset_y=74)
-                npc_counter+=1
-                print(item[5], "found for ", smurf, "counter = ",npc_counter)
-                time.sleep(0.3)
-                #click brown position
-                pyautogui.moveTo(smurf[0] + 377, smurf[1] + 223)
-                pyautogui.click(button='left')
-                time.sleep(1.0)
-                #click green position
-                pyautogui.moveTo(smurf[0] + 440, smurf[1] + 320)
-                pyautogui.click(button='left')
-
-            # * invasion middle code
-            item = [554, 206, 249, 185, 0, "invasion middle"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=-75, offset_y=74)
-                npc_counter+=1
-                print(item[5], "found for ", smurf, "counter = ",npc_counter)
-                time.sleep(0.3)
-                #click brown position
-                pyautogui.moveTo(smurf[0] + 523, smurf[1] + 223)
-                pyautogui.click(button='left')
-                time.sleep(1.0)
-                #click green position
-                pyautogui.moveTo(smurf[0] + 440, smurf[1] + 320)
-                pyautogui.click(button='left')
-
-    print("====Ready")
-    start_the_play_button(active_smurf_windows)
-    pyautogui.moveTo(2759, 44)
-    time.sleep(0.5)
-    pyautogui.click(button='left')
 
 
 def main():
     """main function, starts a thread to check for ctrl_key pressand starts the main func"""
+    if len(sys.argv) != 2:
+        print("Usage: python beelden.py <counter in multiples of 7>")
+        return
+
+
     ctrl_thread = threading.Thread(target=check_ctrl_key)
     ctrl_thread.daemon = True  # Set as a daemon so it won't prevent program exit
     ctrl_thread.start()
