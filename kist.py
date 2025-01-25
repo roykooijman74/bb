@@ -56,7 +56,7 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.3):
             x2 = x1 + 50
             y2 = y1 + 90
             width2 = width - 60
-            length2 = length - 130
+            length2 = length - 125
             location = None
             try:
                 location = pyautogui.locateCenterOnScreen(
@@ -191,6 +191,15 @@ def mainlogic():
     zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
     up()
     zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    
+    print("ready searching chests")
+    pyautogui.moveTo(2560 + 21, 109)
+    pyautogui.mouseDown()
+    pyautogui.mouseUp()
+
+
+    
+    
 
 def main():
     """main function, starts a thread to check for ctrl_key pressand starts the main func"""

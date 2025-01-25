@@ -172,7 +172,7 @@ def mainlogic():
     time.sleep(0.2)
 
     #for y in range(80, 440, 30):
-    for y in range(70, 440, 30):
+    for y in range(80, 440, 30):
         start_the_play_button(active_smurf_windows)
         # * move to menu position
         pyautogui.moveTo(2670, y)
@@ -181,19 +181,6 @@ def mainlogic():
         time.sleep(1.8)
         loop_counter += 1
         pause_the_play_button(active_smurf_windows)
-
-        # GOLD CHECK        
-        for smurf in active_smurf_windows:
-            falsegold=True
-            while falsegold:
-                item = [406, 46, 82, 67, 0, "gold grayed out"]
-                status, smurf = zoek_item_on_color(item, smurf)
-                if status:
-                    print(item[5], "found for ", smurf)
-                    click_on_screen_for_smurf(smurf,item[0],item[1])
-                    time.sleep(0.2)
-                else:
-                    falsegold=False
 
         #check if everything is ready to start, if not exit
 #        print("checking if everything is ok to start")
@@ -209,43 +196,60 @@ def mainlogic():
         print("======= Searching for invasion:", loop_counter)
         for smurf in active_smurf_windows:
             # * reward check code
-            item = [507, 350, 160, 220, 72, "reward"]
+            #item = [450, 316, 151, 157, 142, "reward"]
+            item = [448, 315, 255, 255, 254, "reward"]
             status, smurf = zoek_item_on_color(item, smurf)
             if status:
                 click_on_screen_for_smurf(smurf,item[0],item[1])
                 print(item[5], "found for ", smurf)
 
-            # * invasion left code
-            item = [429, 207, 243, 181, 1, "invasion left"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=-75, offset_y=74)
-                npc_counter+=1
-                print(item[5], "found for ", smurf, "counter = ",npc_counter)
-                time.sleep(0.3)
-                #click brown position
-                pyautogui.moveTo(smurf[0] + 377, smurf[1] + 223)
-                pyautogui.click(button='left')
-                time.sleep(1.0)
-                #click green position
-                pyautogui.moveTo(smurf[0] + 440, smurf[1] + 320)
-                pyautogui.click(button='left')
+            # # * invasion middle code
+            # item = [415, 189, 43, 43, 53, "invasion middle"]   #2560+415=2975 
+            # status, smurf = zoek_item_on_color(item, smurf)
+            # if status:
+            #     click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=64, offset_y=69)
+            #     npc_counter+=1
+            #     print(item[5], "found for ", smurf, "counter = ",npc_counter)
+            #     time.sleep(0.3)
+            #     #click brown position
+            #     pyautogui.moveTo(smurf[0] + 525, smurf[1] + 209)
+            #     pyautogui.click(button='left')
+            #     time.sleep(0.5)
+            #     #click green position
+            #     pyautogui.moveTo(smurf[0] + 430, smurf[1] + 320)
+            #     pyautogui.click(button='left')
 
-            # * invasion middle code
-            item = [554, 206, 249, 185, 0, "invasion middle"]
-            status, smurf = zoek_item_on_color(item, smurf)
-            if status:
-                click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=-75, offset_y=74)
-                npc_counter+=1
-                print(item[5], "found for ", smurf, "counter = ",npc_counter)
-                time.sleep(0.3)
-                #click brown position
-                pyautogui.moveTo(smurf[0] + 523, smurf[1] + 223)
-                pyautogui.click(button='left')
-                time.sleep(1.0)
-                #click green position
-                pyautogui.moveTo(smurf[0] + 440, smurf[1] + 320)
-                pyautogui.click(button='left')
+            # # * invasion left code
+            # item = [274, 190, 65, 64, 71, "invasion left"]
+            # status, smurf = zoek_item_on_color(item, smurf)
+            # if status:
+            #     click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=-75, offset_y=58)
+            #     npc_counter+=1
+            #     print(item[5], "found for ", smurf, "counter = ",npc_counter)
+            #     time.sleep(0.3)
+            #     #click brown position
+            #     pyautogui.moveTo(smurf[0] + 350, smurf[1] + 212)
+            #     pyautogui.click(button='left')
+            #     time.sleep(0.5)
+            #     #click green position
+            #     pyautogui.moveTo(smurf[0] + 430, smurf[1] + 320)
+            #     pyautogui.click(button='left')
+
+
+        # GOLD CHECK        
+        for smurf in active_smurf_windows:
+            falsegold=True
+            while falsegold:
+                item = [406, 46, 82, 67, 0, "gold grayed out"]
+                status, smurf = zoek_item_on_color(item, smurf)
+                if status:
+                    print(item[5], "found for ", smurf)
+                    click_on_screen_for_smurf(smurf,item[0],item[1])
+                    time.sleep(0.2)
+                else:
+                    falsegold=False
+
+
 
     print("====Ready")
     start_the_play_button(active_smurf_windows)
