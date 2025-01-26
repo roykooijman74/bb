@@ -169,8 +169,6 @@ class GenericHelpers:
                 print("Ctrl key pressed. Exiting program immediately...")
                 os._exit(0)  # Immediately terminate the program
 
-
-
 def capture_image(x, y, length, height, image_name):
     # Define the region to capture (left, top, right, bottom)
     region = (x, y, x + length, y + height)
@@ -229,7 +227,7 @@ def mainlogic():
         location = None
         image_path = os.path.join(output_dir, args.imagename)
 
-        confidencevalue=0.7
+        confidencevalue=0.6
         
         try:
             location = pyautogui.locateCenterOnScreen(

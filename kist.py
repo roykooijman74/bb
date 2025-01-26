@@ -43,12 +43,13 @@ def check_ctrl_key():
             os._exit(0)  # Immediately terminate the program
 
 
-def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.3):
+def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.3, loop=0, total=0):
     """zoekt plaatje in smurf windows"""
     if rois is None:
         rois = []
     status = 0
-    print("start search")
+    loop+=1
+    print("start search: ", loop)
     while True:  # Loop until no instances are found in any ROI
         found = False  # Flag to check if any instance was found in this iteration
         for roi in rois:
@@ -73,11 +74,14 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.7, rois=None, wait=0.3):
                 time.sleep(wait)
                 pyautogui.click(button="left")
                 status += 1
+                total += 1
+
                 found = True
-                print("=============================", x, y, status, image_path, name)
+                print("=============================", x, y, status, total, image_path, name)
         if not found:
             break  # If no instances were found in this iteration, exit the loop
-    return status
+    #total=total+status
+    return status, loop, total
 
 
 def starttopleftcorner():
@@ -152,47 +156,49 @@ def right():
 
 def mainlogic():
     """main logic function"""
+    total = 0
+    loop=0
     starttopleftcorner()
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     right()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     right()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     down()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     right()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     up()
-    zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8)
+    _, loop,total = zoekplaatje(r"images\kistje.png", 0, rois=SMURFWINDOWS, confidencevalue=0.8, loop=loop,total=total)
     
-    print("ready searching chests")
+    print("ready searching chests, total:", total)
     pyautogui.moveTo(2560 + 21, 109)
     pyautogui.mouseDown()
     pyautogui.mouseUp()
