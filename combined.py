@@ -1,16 +1,11 @@
 ''' my python code for automating boring stuff in boom beach'''
 import sys
-import signal
 import time
 from functools import partial
 import win32gui
 import pyautogui
 from PIL import ImageGrab
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
-import time
-from functools import partial
-import pyautogui
-from PIL import ImageGrab
 import win32api
 import win32con
 import threading

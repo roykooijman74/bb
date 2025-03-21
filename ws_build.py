@@ -2,11 +2,34 @@
 import signal
 import time
 from functools import partial
-
+import os
+import sys
 import pyautogui
 from PIL import ImageGrab
 
+import threading
+import win32api
+import win32con
+
 ImageGrab.grab = partial(ImageGrab.grab, all_screens=True)
+
+class GenericHelpers:
+    @staticmethod
+    def countdown(duration):
+        for i in range(duration, 0, -1):
+            print(f"Countdown: {i}         ", end='\r')
+            time.sleep(1)
+        print("Countdown: 0")
+
+    @staticmethod
+    def check_ctrl_key():
+        """Thread function to check for Ctrl key press."""
+        CTRL_KEY = win32con.VK_CONTROL
+        while True:
+            # Check if Ctrl key is pressed down; if so, exit the program immediately
+            if win32api.GetAsyncKeyState(CTRL_KEY) & 0x8000:
+                print("Ctrl key pressed. Exiting program immediately...")
+                os._exit(0)  # Immediately terminate the program
 
 
 def enablectrlc():
@@ -43,8 +66,12 @@ def zoekplaatje(image_path, offset=0, confidencevalue=0.6, wait=0.1):
 
 def main():
     '''main function'''
+    """main function, starts a thread to check for ctrl_key pressand starts the main func"""
+    ctrl_thread = threading.Thread(target=GenericHelpers.check_ctrl_key)
+    ctrl_thread.daemon = True  # Set as a daemon so it won't prevent program exit
+    ctrl_thread.start()
 
-    enablectrlc()
+#    enablectrlc()
     i = 0
     while True:
         i = i+1

@@ -1,13 +1,12 @@
 ''' my own grab and check it code '''
 import time
 import os
-import argparse
+import sys
 from functools import partial
 import threading
 import win32api
 import pyautogui
-from PIL import Image, ImageGrab
-from tabulate import tabulate
+from PIL import ImageGrab
 import win32gui
 import win32con
 
@@ -51,7 +50,7 @@ class WindowsChecker:
     @staticmethod
     def find_window_by_position(x, y):
         for window in all_smurf_windows:
-            win_x, win_y, width, height, name = window
+            win_x, win_y, width, height, _ = window
             if win_x <= x < win_x + width and win_y <= y < win_y + height:
                 return window
         return None
@@ -85,6 +84,43 @@ class WindowsChecker:
         # else:
         #     print(f"{smurf[4]}: {item[5]} NOT found")
         return status, smurf
+
+    @staticmethod
+    def search_image(smurf, item,confidencevalue=0.6, regionadjust=3):
+        '''Seard.'''
+        x1, y1, _, _, _ = smurf
+        rel_x, rel_y, width, height, imagename = item[0], item[1], item[2], item[3], item[4]
+        #print(imagename)
+
+        search_x = x1 + rel_x
+        search_y = y1 + rel_y
+
+        location = None
+        image_path = os.path.join("images", imagename)
+
+        confidencevalue=0.6
+
+        try:
+            location = pyautogui.locateCenterOnScreen(
+                image_path,
+                confidence=confidencevalue,
+                region=(search_x - regionadjust , search_y - regionadjust ,
+                        width + regionadjust , height + regionadjust ),
+            )
+            status=bool(location)
+
+        except pyautogui.ImageNotFoundException:
+            status = False
+        except Exception as e:
+            status = False
+
+        # if status:
+        #     print(smurfname, search_x, search_y, width, height)
+        #     print(location, bool(location))
+
+
+        return status, smurf
+
 
     @staticmethod
     def click_on_screen_for_smurf(smurf, x, y, offset_x=0, offset_y=0):
@@ -147,7 +183,7 @@ class BlueStacksHelper:
         item = [465, 14, 247, 250, 255, "pauze button"]
         status, smurf = WindowsChecker.zoek_item_on_color(item, active_smurf_windows[0])
         if status:
-            click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
+            WindowsChecker.click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
             #print("pauze pressed")
         #else:
             #print("no need to press pauze")
@@ -161,7 +197,7 @@ class BlueStacksHelper:
         item = [461, 18, 247, 250, 255, "start button"]
         status, smurf = WindowsChecker.zoek_item_on_color(item, active_smurf_windows[0])
         if status:
-            click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
+            WindowsChecker.click_on_screen_for_smurf(smurf,item[0],item[1],offset_x=0, offset_y=0)
             #        print("play pressed")
         #else:
             #print("no need to press play")
@@ -189,76 +225,110 @@ class GenericHelpers:
 
 def mainlogic():
     '''main logic of the program.'''
-    #get arguments parsed to this program
-    parser = argparse.ArgumentParser(description="Capture a region of the screen based on mouse position.")
-    parser.add_argument("length", type=int, help="The length of the region to capture.")
-    parser.add_argument("height", type=int, help="The height of the region to capture.")
-    parser.add_argument("imagename", type=str, help="The name of the output image file (e.g., 'image.png').")
-    args = parser.parse_args()
-
     #determine which smurf windows are active
     active_smurf_windows = WindowsChecker.check_active_windows(all_smurf_windows)
 
     #set windows to correct position
-    WindowsChecker.set_smurf_windows_positions(active_smurf_windows)
+    #WindowsChecker.set_smurf_windows_positions(active_smurf_windows)
+
+    loop_counter = 1
+    npc_counter = 0
+    reward_counter = 0
+
+    #make sure the first npc is choosen
+    for y in range(80, 120, 30):
+        pyautogui.moveTo(2670, y)
+        pyautogui.click(button='left')
+    time.sleep(0.2)
+
+    #loop over the activity log
+    for y in range(80, 440, 30):
+        print("======= Searching for daily chores:", loop_counter)
+
+        # start and pauze the play/pause button
+        BlueStacksHelper.start_the_play_button(active_smurf_windows)
+        # * move to menu position
+        pyautogui.moveTo(2670, y)
+        time.sleep(0.2)
+        pyautogui.click(button='left')
+        time.sleep(0.8)
+        loop_counter += 1
+        BlueStacksHelper.pause_the_play_button(active_smurf_windows)
+
+        #check if everything is ready to start, if not exit
+        print("info: search player icon")
+        for smurf in active_smurf_windows:
+            item = [30, 74, 95, 184, 229, "player level icon"]
+            status, smurf = WindowsChecker.zoek_item_on_color(item, smurf)
+            if status:
+                print(item[5], "found for ", smurf, "exiting as that shouldnt be visible")
+                sys.exit()
+
+        #check rewards
+        print("info: search reward")
+        for smurf in active_smurf_windows:
+            item=  [443 , 309 , 30 , 30 , "beloning.png"]
+            #item = [448, 315, 255, 255, 254, "reward"]
+
+            status, smurf = WindowsChecker.search_image(smurf, item)
+            if status:
+                reward_counter+=1
+                xcorrectie=item[2]/2
+                ycorrectie=item[3]/2
+                WindowsChecker.click_on_screen_for_smurf(smurf,item[0]+
+                                                         xcorrectie,item[1]+ycorrectie)
+                print(item[4], "found for ", smurf[4], "total rewards:", reward_counter)
+
+        #check invasionleft
+        print("info: search invasie left icon")
+        for smurf in active_smurf_windows:
+            item=[267,184,30,30,"invasionleft.png"]
+            status, smurf = WindowsChecker.search_image(smurf, item)
+            if status:
+                npc_counter+=1
+                print(item[4], "found for ", smurf[4], "total npcs:",npc_counter )
+                WindowsChecker.click_on_screen_for_smurf(smurf,356,257)   #NPC location
+                time.sleep(0.4)
+                WindowsChecker.click_on_screen_for_smurf(smurf,395,202)   #brown destroy location
+                time.sleep(0.6)
+                WindowsChecker.click_on_screen_for_smurf(smurf,437,312)   #green destroy location
+
+        #check invasion normal
+        print("info: search invasie midden icon")
+        for smurf in active_smurf_windows:
+            item=[396 , 185 , 30 , 10,"invasie.png"]
+            status, smurf = WindowsChecker.search_image(smurf, item)
+            if status:
+                npc_counter+=1
+                print(item[4], "found for ", smurf[4], "total npcs:",npc_counter )
+                WindowsChecker.click_on_screen_for_smurf(smurf,482,271)   #NPC location
+                time.sleep(0.4)
+                WindowsChecker.click_on_screen_for_smurf(smurf,527,200)   #brown destroy location
+                time.sleep(0.6)
+                WindowsChecker.click_on_screen_for_smurf(smurf,413,313)   #green destroy location
 
 
-    # Identify the window containing the mouse position
-    x, y = pyautogui.position()
-    print(f"Mouse position: x={x}, y={y}")
-    window = WindowsChecker.find_window_by_position(x, y)
-    if window:
-        win_x, win_y, _, _, win_name = window
-        rel_x, rel_y = x - win_x, y - win_y
-        print(f"Mouse window: {win_name}")
-        print(f"Relative position: x={rel_x}, y={rel_y}")
-    else:
-        print("Mouse is not within any defined window.")
-        exit()
 
-    WindowsChecker.capture_image(x, y, args.length, args.height, args.imagename)
-    
-    # CHECKING CODE
 
-    output_dir = "images"
-    for smurf in active_smurf_windows:
-        x1, y1, width, length, name = smurf
-        x2=x1+rel_x
-        y2=y1+rel_y
-        
-        location = None
-        image_path = os.path.join(output_dir, args.imagename)
+        # GOLD CHECK to handle if a smurf is promoted
+        print("info: search gold icon")
+        for smurf in active_smurf_windows:
+            falsegold=True
+            while falsegold:
+                item = [406, 46, 82, 67, 0, "gold grayed out"]
+                status, smurf = WindowsChecker.zoek_item_on_color(item, smurf)
+                if status:
+                    print(item[5], "found for ", smurf)
+                    WindowsChecker.click_on_screen_for_smurf(smurf,item[0],item[1])
+                    time.sleep(0.2)
+                else:
+                    falsegold=False
 
-        confidencevalue=0.6
-        
-        try:
-            location = pyautogui.locateCenterOnScreen(
-                image_path,
-                confidence=confidencevalue,
-                region=(x2, y2, args.length, args.height),
-            )  # type: ignore
-        except pyautogui.ImageNotFoundException:
-            pass
-        if location:
-            # x = location[0]
-            # y = location[1] + offset
-            # pyautogui.moveTo(x, y)
-            # time.sleep(wait)
-            # pyautogui.click(button="left")
-            # status += 1
-
-            print(
-                f"\033[92m{'The same:':<12}\033[0m {str(location):<25} {name:<15}"
-            )
-        else:
-            print(
-                f"\033[91m{'NOT SAME:':<12}\033[0m {str(location):<25} {name:<15}"
-            )
-
-#item=  [443 , 309 , 30 , 30 , "beloning.png"]
-
-    #print("item= [",rel_x, ",", rel_y, ",", args.length, "," , args.height, ",\"", args.imagename, "\"")
-    print(f"item=[{rel_x},{rel_y},{args.length},{args.height},\"{args.imagename}\"]")
+    print("====Ready")
+    BlueStacksHelper.start_the_play_button(active_smurf_windows)
+    pyautogui.moveTo(2759, 44)
+    time.sleep(0.5)
+    pyautogui.click(button='left')
 
 
 def main():
@@ -271,4 +341,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
