@@ -44,6 +44,7 @@ class WindowsChecker:
             hwnd = win32gui.FindWindow(None, window[4])
             if hwnd:
                 active.append(window)
+                print("found ", window)
         #print("Active windows: ", active)
         return active
 
